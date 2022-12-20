@@ -25,7 +25,7 @@ app.use(cookieParser())
 app.use('/User', routerUser)
 app.use('/Materia', routerMaterias)
 app.use('/Assignation', routerAssignation)
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(cors({ origin: "http://localhost:3000", credentials: true}))
 
 // Server running
 app.listen(process.env.PORT_SERVER || 8089, async()=>{
