@@ -17,6 +17,7 @@ const signIn = async (req, res) => {
         const { email, password } = req.body
         // user search by email
         const user = await User.findOne({ email: email })
+        console.log(user)
         // validation if user exist or not
         if (!user) {
             return res.status(404).json({
@@ -35,9 +36,11 @@ const signIn = async (req, res) => {
         }
 
         // Store _id the user in the token {_id: "Usuario2123321"}
-        const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY_TOKEN, {
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY_TOKEN, {
             expiresIn: 60 * 60 * 24
         })
+
+        await User.findByIdAndUpdate(user._id, {lastActivity: time})
 
         // Creating cookie for store token in cookies the browser
         res.status(202).cookie('Token', token, {
@@ -119,7 +122,7 @@ const signUp = async (req, res) => {
                     // console.log('Materia: '+materiasId[j])
                     if(infoMateria[i].equals(materiasId[j])){
                         // console.log('Iguales: '+infoMateria[i]+materiasId[j])
-                        userCreate.assignations[cont]={as: infoId[i], status: false}
+                        userCreate.assignations[cont]={as: infoId[i], status: false, date: ''}
                         cont++
                     }
                 }
@@ -343,7 +346,7 @@ const assignation = async(req, res) =>{
                 })
             }
         }
-        const assignationAdd = {as: assignation, status: false}
+        const assignationAdd = {as: assignation, status: false, date: ""}
         // Adding Assignation for User
         await User.updateOne({email: user}, {
             $push: {

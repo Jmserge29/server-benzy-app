@@ -2,7 +2,7 @@
 import Role from "../Models/Role.js";
 import Materia from '../Models/Materia.js'
 import Assignation from "../Models/Assignation.js";
-
+import Department from '../Models/Department.js'
 //Exporting fuctions creatings setup
 export const createRoles = async()=>{
     try {
@@ -16,6 +16,7 @@ export const createRoles = async()=>{
             new Role({ property: "admin"}).save()
         ])
         console.log(values)
+        console.log("Roles created success!")
     } catch (error) {
         console.log(error)
     }
@@ -169,7 +170,7 @@ export const createMaterias = async()=>{
                 new Materia({id: data.id, enlace: data.enlace}).save()
             })
         ])
-        console.log('Se han creado las materias exitosamente!')
+        console.log("Matters created success!")
 
     } catch (error) {
         console.log(error)
@@ -187,7 +188,31 @@ export const creatingAssignation = async()=>{
             new Assignation({ name: "assignation #2", materias: "6382870084922a3f4e970b74"}).save(),
             new Assignation({ name: "assignation #3", materias: "6382870084922a3f4e970b75"}).save()
         ])
-        console.log(values)
+        console.log("Assigantions created success!")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const createDepartment = async() =>{
+    try {
+        const count = await Department.estimatedDocumentCount()
+        if(count>0) return;
+
+        //Creating differents departments the matters
+        const values = await Promise.all([
+            new Department({name: "Ingeniería",description: "La ingeniería es una disciplina y un campo de estudio que consisten en la aplicación de los conocimientos científicos a la solución de los problemas y retos que enfrenta la humanidad, en sus muy distintas áreas. Esto implica tanto el diseño, construcción y desarrollo de herramientas, máquinas e instalaciones, como el manejo de recursos naturales, la producción de materiales sintéticos o la conceptualización de procesos y sistemas."}).save(),
+            new Department({name: "Ciencias Básicas",description: "Las ciencias básicas tienen un enfoque disciplinar y contemplan las ciencias exactas, físicas y naturales (Biología, Física, Geología, Matemáticas y Química) así como las ciencias básicas biomédicas. Tienen como fin último comprender los fenómenos asociados a la naturaleza, sus leyes e interacciones."}).save(),
+            new Department({name: "Ciencias De La Salud",description: "Ciencias de la Salud es un campo de estudio vinculado al creciente desarrollo de diversas disciplinas, tales como la Biología, Química, Física y Medicina, que asumen un papel de primer orden al aportar conceptos, métodos y técnicas que permiten entender los procesos para conservar la salud de los individuos."}).save(),
+            new Department({name: "Ciencias Jurídicas",description: "Las ciencias del derecho o ciencias jurídicas son todas aquellas disciplinas que buscan explicar las características del derecho, entendido como un fenómeno que existe más allá de su dimensión positiva, esta última objeto propio de la dogmática jurídica."}),
+            new Department({name: "Ciencias Sociales y Humanidades",description: "Las Ciencias Sociales y Humanidades se encargan del estudio del ser humano como ente social, dando gran énfasis a aspectos como el comportamiento, interacciones humanas y la cultura."}).save(),
+            new Department({name: "Educación y Artes",description: "Por Ciencias de la educación se entiende a un conjunto de diversas disciplinas que estudian a la educación y las prácticas educativas. En este sentido, cada disciplina proporciona perspectivas teóricas-metodológicas para analizar, comprender y explicar los problemas complejos que acontecen en los espacios educativos"}).save(),
+            new Department({name: "Ciencias Económicas y Administrativas",description: "La Economía y la Administración son las ciencias que proporcionan las técnicas y herramientas para una correcta organización, dirección y control de todos esos recursos, que van desde los financieros, materiales, tecnológicos, hasta, muy importantes, los humanos."}).save(),
+            new Department({name: "Ciencias y Tecnologías de la Información",description: "La ciencia de la información es un campo académico que se ocupa principalmente del análisis, la recopilación, la clasificación, la manipulación, el almacenamiento, la recuperación, el movimiento, la difusión y la protección de la información."}).save(),
+            new Department({name: "Ciencias Biológicas",description: "Está encaminada al estudio de la vida desde todos los puntos de vista: la estructura de los seres vivos y su funcionamiento, desde un aspecto químico (Bioquímica), molecular (Biología Molecular), genético (Genética), celular (Biología Celular) y orgánico (Organografía)."}).save(),
+            new Department({name: "Ciencias Agropecuarias",description: "Las ciencias biológicas y agropecuarias son ramas del conocimiento que se encargan tanto de la descripción y comportamiento de los organismos individualmente y en conjunto con su entorno, así como del conjunto de acciones humanas que transforman el medio ambiente natural."}).save()
+        ])
+        console.log("Departments created success!")
     } catch (error) {
         console.log(error)
     }

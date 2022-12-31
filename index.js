@@ -12,7 +12,7 @@ import routerMaterias from './Routes/materias.routes.js'
 import routerAssignation from './Routes/assignation.routes.js'
 
 //Import libs - setups 
-import {createRoles, createMaterias,creatingAssignation} from './libs/InitialSetup.js'
+import {createRoles, createMaterias,creatingAssignation, createDepartment} from './libs/InitialSetup.js'
 
 // Implementation Fuctions and assigned vars
 const app = express()
@@ -21,7 +21,7 @@ dotenv.config()
 // App Uses
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:3000", credentials: true}))
+app.use(cors({ origin: "https://frontend-benzy.vercel.app/", credentials: true}))
 app.use(express.json())
 app.use(cookieParser())
 app.use('/User', routerUser)
@@ -35,6 +35,7 @@ app.listen(process.env.PORT_SERVER || 8089, async()=>{
 createRoles()
 createMaterias()
 creatingAssignation()
+createDepartment()
 var time = moment().format('MMMM Do YYYY, h:mm:ss a');
 // Test Routes
 app.get('/', (req, res) => {

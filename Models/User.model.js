@@ -13,6 +13,7 @@ const userSchema = new Schema(
         },
         password: {
             type: String,
+            require: true,
             unique: false
         },
         roles: [
@@ -33,6 +34,9 @@ const userSchema = new Schema(
                 status: {
                     type: Boolean,
                     required: true
+                },
+                date: {
+                    type: String
                 }
             }
         ],

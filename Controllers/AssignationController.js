@@ -2,6 +2,9 @@ import Assignation from "../Models/Assignation.js";
 import Materia from "../Models/Materia.js";
 import User from "../Models/User.model.js"
 import mongoose from 'mongoose'
+import moment from 'moment'
+
+var time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 // Creating Assignations By Id (Controller for Moderators And Admins)
 const createAssignation = async (req, res) => {
@@ -137,9 +140,11 @@ const checkAssignation = async (req, res) => {
         const element = userFound[0].assignations.find(element => element.as.equals(assignationUpdate._id));
 
         // validation if the assignation already is true
+        var dateSuccess = ''
         var boolean
         if(element.status===false){
             boolean = true
+            dateSuccess = time
         }
         else if(element.status===true){
             boolean = false
@@ -148,7 +153,8 @@ const checkAssignation = async (req, res) => {
         const position = (userFound[0].assignations.indexOf(element))
         await User.updateOne({ _id: userFound[0]._id}, {
             $set: {
-                [`assignations.${position}.status`]: boolean
+                [`assignations.${position}.status`]: boolean,
+                [`assignations.${position}.date`]: dateSuccess
             }
         })
 
