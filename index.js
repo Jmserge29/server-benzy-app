@@ -18,10 +18,10 @@ import {createRoles, createMaterias,creatingAssignation, createDepartment} from 
 const app = express()
 dotenv.config()
 
-// App Uses
+// App Uses Rutes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "localhost:3000/", credentials: true}))
+app.use(cors({ origin: "localhost:3000", credentials: true}))
 app.use(express.json())
 app.use(cookieParser())
 app.use('/User', routerUser)
