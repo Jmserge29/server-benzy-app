@@ -107,7 +107,7 @@ const createMaterias = async (req, res) => {
         const materiaCreated = await materiacreate.save()
 
         return res.status(200).json({
-            data: materiacreated
+            data: materiaCreated
         })
     } catch (error) {
         return res.status(500).json({
