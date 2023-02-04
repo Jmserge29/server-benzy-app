@@ -8,7 +8,7 @@ router.post('/signin', UserCtrl.signIn)
 router.post('/signup', UserCtrl.signUp)
 router.post('/signout', UserCtrl.signOut)
 router.get('/users',UserCtrl.getUsers)
-router.post('/dashboard', UserCtrl.dataUser)
+router.post('/dashboard', UserCtrl.dataUser) // VerifyToken included in Controller User Data
 router.post('/registration/:matter', UserCtrl.registration)
 router.post('/assignation/:assignation', UserCtrl.assignation)
 

@@ -189,8 +189,25 @@ const getUsers = async (req, res) => {
 
 const dataUser = async(req, res) => {
     try {
-        const {email} = req.body
-        const user = await User.find({email: email})
+        const token = req.headers['x-access-token']
+        if (!token) {
+            return res.status(401).json({
+                auth: false,
+                message: 'no token provided'
+            })
+        }
+
+        const tokenDecoded = jwt.verify(token, process.env.SECRET_KEY_TOKEN)
+        req.userId = tokenDecoded.id;
+
+        const user = await User.findById(req.userId, { password: 0 })
+
+        if (!user) return res.status(404).json({
+            message: 'User not found'
+        })
+
+        console.log('user is: \n',user.assignations)
+        
         var listStatus = []
         var listComplet = []
         var countFalse=0
@@ -198,21 +215,21 @@ const dataUser = async(req, res) => {
         var assignationsP=[]
         var arrayComplet = new Array()
         
-        for(var i=0; i<user[0].assignations.length;i++){
+        for(var i=0; i<user.assignations.length;i++){
             // Getting the object the Assignation
-            var idAss = await Assignation.findById(user[0].assignations[i].as)
-            listStatus.push(user[0].assignations[i].status)
-            listComplet.push({_id: user[0].assignations[i].as, status: user[0].assignations[i].status})
-            if(user[0].assignations[i].status===false){
+            var idAss = await Assignation.findById(user.assignations[i].as)
+            listStatus.push(user.assignations[i].status)
+            listComplet.push({_id: user.assignations[i].as, status: user.assignations[i].status})
+            if(user.assignations[i].status===false){
                 countFalse++
                 assignationsP.push(idAss.name)
             }
-            else if(user[0].assignations[i].status===true) countTrue++
+            else if(user.assignations[i].status===true) countTrue++
 
             // Extract _id materia the Object Assignation
-            for(var j=0; j<user[0].materias.length;j++){
-                if(idAss.materia.equals(user[0].materias[j])){
-                    const nameMater = await Materia.findById(user[0].materias[j])
+            for(var j=0; j<user.materias.length;j++){
+                if(idAss.materia.equals(user.materias[j])){
+                    const nameMater = await Materia.findById(user.materias[j])
                     arrayComplet.push(nameMater.id)
                 }
             }
